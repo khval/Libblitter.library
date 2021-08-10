@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE library SYSTEM "library.dtd">
+<library name="libblitter" basename="LibBlitterBase" openname="libblitter.library">
+	<include>exec/types.h</include>
+	<include>libraries/libblitter.h</include>
+	<include>hardware/custom.h</include>
+	<interface name="main" version="1.0" struct="LibBlitterIFace" prefix="_libblitter_" asmprefix="ILibBlitter" global="ILibBlitter">
+		<method name="Obtain" result="ULONG"/>
+		<method name="Release" result="ULONG"/>
+		<method name="Expunge" result="void" status="unimplemented"/>
+		<method name="Clone" result="struct Interface *" status="unimplemented"/>
+
+		<method name="blit_init" result="void">
+			<arg name="context" type="struct blitcontext *"/>
+		</method>
+
+		<method name="doBlitter" result="void">
+			<arg name="context" type="struct blitcontext *"/>
+			<arg name="custum" type="struct Custom *"/>
+		</method>
+
+	</interface>
+</library>
+

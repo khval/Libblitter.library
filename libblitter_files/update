@@ -1,0 +1,32 @@
+cd > env:olddir
+
+IF NOT EXISTS ram:temp
+makedir ram:temp
+endif
+
+copy /libblitter.xml ram:temp
+
+cd ram:temp
+
+idltool -a libblitter.xml
+
+cd > env:thisdir
+echo $thisdir
+
+if exists libblitter_files
+cd libblitter_files/
+; replace default text set by IDLTOOL
+rpl.exe -R "Hyperion Entertainment CVBA" "LiveForIt Software" >NIL:
+rpl.exe -R "All Rights Reserved" "GPL2 License." >NIL:
+endif 
+
+cd $olddir
+copy ram:temp/include/#? /include/  all
+copy ram:temp/libblitter_vectors.c /
+copy ram:temp/libblitter_vectors.h /
+copy ram:temp/libblitter_files/libblitter_vectors.c ""
+copy ram:temp/libblitter_files/libblitter_vectors.h ""
+xcopy ram:temp/libblitter_files/main main NOREP ALL QUIET
+
+delete QUIET ram:temp all 
+
