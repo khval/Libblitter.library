@@ -54,21 +54,7 @@ struct wtf_is_this
 
 #endif
 
-// we setup the context when we call the blitter... hate to change too many things...
 
-struct blitterContext
-{
-	uae_u16 oldvblts;
-	uae_u16 bltcon0, bltcon1;
-	uae_u32 bltapt, bltbpt, bltcpt, bltdpt;
-	int blinea_shift;
-	uae_u16 blinea, blineb;
-	int blitline, blitfc, blitfill, blitife, blitsing, blitdesc;
-	int blitonedot, blitsign;
-	long int bltwait;
-	struct bltinfo blt_info;
-	enum blitter_states bltstate;
-};
 
 // will remove this line when... it compiles... (should be a argument for functions that needs it.)
 // Library is shared, don't wont the data to be overwritten, by a different program... (program will think it has exclusive rights!)

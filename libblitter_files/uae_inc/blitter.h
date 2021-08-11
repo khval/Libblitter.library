@@ -27,12 +27,30 @@ extern enum blitter_states {
     BLT_done, BLT_init, BLT_read, BLT_work, BLT_write, BLT_next
 } bltstate;
 
-extern struct bltinfo blt_info;
 
+// we setup the context when we call the blitter... hate to change too many things...
+
+struct blitterContext
+{
+  uae_u16 oldvblts;
+  uae_u16 bltcon0, bltcon1;
+  uae_u32 bltapt, bltbpt, bltcpt, bltdpt;
+  int blinea_shift;
+  uae_u16 blinea, blineb;
+  int blitline, blitfc, blitfill, blitife, blitsing, blitdesc;
+  int blitonedot, blitsign;
+  long int bltwait;
+  struct bltinfo blt_info;
+  enum blitter_states bltstate;
+};
+
+#if 0
+extern struct bltinfo blt_info;
 extern uae_u16 bltsize, oldvblts;
 extern uae_u16 bltcon0,bltcon1;
 extern int blinea_shift;
 extern uae_u32 bltapt,bltbpt,bltcpt,bltdpt;
+#endif
 
 extern void maybe_blit (int);
 extern int blitnasty (void);
