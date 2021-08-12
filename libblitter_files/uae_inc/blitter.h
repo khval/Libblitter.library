@@ -25,23 +25,32 @@ struct bltinfo {
 #endif
 extern enum blitter_states {
     BLT_done, BLT_init, BLT_read, BLT_work, BLT_write, BLT_next
-} bltstate;
+} ;
 
 
 // we setup the context when we call the blitter... hate to change too many things...
 
 struct blitterContext
 {
-  uae_u16 oldvblts;
-  uae_u16 bltcon0, bltcon1;
-  uae_u32 bltapt, bltbpt, bltcpt, bltdpt;
-  int blinea_shift;
-  uae_u16 blinea, blineb;
-  int blitline, blitfc, blitfill, blitife, blitsing, blitdesc;
-  int blitonedot, blitsign;
-  long int bltwait;
-  struct bltinfo blt_info;
-  enum blitter_states bltstate;
+	uae_u16 oldvblts;
+	uae_u16 bltcon0, bltcon1;
+	uae_u32 bltapt, bltbpt, bltcpt, bltdpt;
+	int blinea_shift;
+	uae_u16 blinea, blineb;
+	int blitline, blitfc, blitfill, blitife, blitsing, blitdesc;
+	int blitonedot, blitsign;
+	long int bltwait;
+	struct bltinfo blt_info;
+	enum blitter_states bltstate;
+	struct regstruct regs;
+
+	// more 
+
+	long int blit_cycles;
+	long blit_firstline_cycles;
+	long blit_first_cycle;
+	int blit_last_cycle;
+	uae_u8 *blit_diag;
 };
 
 #if 0
@@ -52,13 +61,17 @@ extern int blinea_shift;
 extern uae_u32 bltapt,bltbpt,bltcpt,bltdpt;
 #endif
 
-extern void maybe_blit (int);
-extern int blitnasty (void);
-extern void blitter_handler (void);
-extern void build_blitfilltable (void);
-extern void do_blitter (void);
+extern void maybe_blit( struct blitterContext *bC ,int);
+extern int blitnasty( struct blitterContext *bC );
+extern void blitter_handler( struct blitterContext *bC  );
+extern void build_blitfilltable();
+extern void do_blitter( struct blitterContext *bC );
+
+#if 0
 extern void blitter_done_notify (void);
-typedef void blitter_func(uaecptr, uaecptr, uaecptr, uaecptr, struct bltinfo *);
+#endif
+
+typedef void blitter_func( struct blitterContext *bC,uaecptr, uaecptr, uaecptr, uaecptr, struct bltinfo *);
 
 #define BLITTER_MAX_WORDS 2048
 

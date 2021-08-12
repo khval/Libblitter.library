@@ -38,16 +38,18 @@ static void generate_func(void)
     unsigned int i;
     printf("#include \"sysconfig.h\"\n");
     printf("#include \"sysdeps.h\"\n");
+    printf("#include \"newcpu.h\"\n");
     printf("#include \"options.h\"\n");
     printf("#include \"custom.h\"\n");
     printf("#include \"memory.h\"\n");
     printf("#include \"blitter.h\"\n");
     printf("#include \"blitfunc.h\"\n\n");
 
+
     for (i = 0; i < sizeof(blttbl); i++) {
 	int active = blitops[blttbl[i]].used;
 	int a_is_on = active & 1, b_is_on = active & 2, c_is_on = active & 4;
-	printf("void blitdofast_%x (uaecptr pta, uaecptr ptb, uaecptr ptc, uaecptr ptd, struct bltinfo *b)\n",blttbl[i]);
+	printf("void blitdofast_%x (struct blitterContext *bC,uaecptr pta, uaecptr ptb, uaecptr ptc, uaecptr ptd, struct bltinfo *b)\n",blttbl[i]);
 	printf("{\n");
 	printf("int i,j;\n");
 	printf("uae_u32 totald = 0;\n");
@@ -99,10 +101,10 @@ static void generate_func(void)
 	printf("for (j = 0; j < b->vblitsize; j++) {\n");
 	printf("\tfor (i = 0; i < b->hblitsize; i++) {\n\t\tuae_u32 bltadat, srca;\n\n");
 	if (c_is_on) printf("\t\tif (ptc) { srcc = chipmem_agnus_wget (ptc); ptc += 2; }\n");
-	if (b_is_on) printf("\t\tif (ptb) {\n\t\t\tuae_u32 bltbdat; blt_info.bltbdat = bltbdat = chipmem_agnus_wget (ptb); ptb += 2;\n");
+	if (b_is_on) printf("\t\tif (ptb) {\n\t\t\tuae_u32 bltbdat; bC -> blt_info.bltbdat = bltbdat = chipmem_agnus_wget (ptb); ptb += 2;\n");
 	if (b_is_on) printf("\t\t\tsrcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;\n");
 	if (b_is_on) printf("\t\t\tprevb = bltbdat;\n\t\t}\n");
-	if (a_is_on) printf("\t\tif (pta) { blt_info.bltadat = bltadat = chipmem_agnus_wget (pta); pta += 2; } else { bltadat = blt_info.bltadat; }\n");
+	if (a_is_on) printf("\t\tif (pta) { bC -> blt_info.bltadat = bltadat = chipmem_agnus_wget (pta); pta += 2; } else { bltadat = bC -> blt_info.bltadat; }\n");
 	if (a_is_on) printf("\t\tbltadat &= blit_masktable[i];\n");
 	if (a_is_on) printf("\t\tsrca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;\n");
 	if (a_is_on) printf("\t\tpreva = bltadat;\n");
@@ -125,7 +127,7 @@ static void generate_func(void)
 	printf("if (totald != 0) b->blitzero = 0;\n");
 	printf("}\n");
 
-	printf("void blitdofast_desc_%x (uaecptr pta, uaecptr ptb, uaecptr ptc, uaecptr ptd, struct bltinfo *b)\n",blttbl[i]);
+	printf("void blitdofast_desc_%x (struct blitterContext *bC,uaecptr pta, uaecptr ptb, uaecptr ptc, uaecptr ptd, struct bltinfo *b)\n",blttbl[i]);
 	printf("{\n");
 	printf("uae_u32 totald = 0;\n");
 	printf("int i,j;\n");
@@ -177,10 +179,10 @@ static void generate_func(void)
 	printf("for (j = 0; j < b->vblitsize; j++) {\n");
 	printf("\tfor (i = 0; i < b->hblitsize; i++) {\n\t\tuae_u32 bltadat, srca;\n");
 	if (c_is_on) printf("\t\tif (ptc) { srcc = chipmem_agnus_wget (ptc); ptc -= 2; }\n");
-	if (b_is_on) printf("\t\tif (ptb) {\n\t\t\tuae_u32 bltbdat; blt_info.bltbdat = bltbdat = chipmem_agnus_wget (ptb); ptb -= 2;\n");
+	if (b_is_on) printf("\t\tif (ptb) {\n\t\t\tuae_u32 bltbdat; bC -> blt_info.bltbdat = bltbdat = chipmem_agnus_wget (ptb); ptb -= 2;\n");
 	if (b_is_on) printf("\t\t\tsrcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;\n");
 	if (b_is_on) printf("\t\t\tprevb = bltbdat;\n\t\t}\n");
-	if (a_is_on) printf("\t\tif (pta) { blt_info.bltadat = bltadat = chipmem_agnus_wget (pta); pta -= 2; } else { bltadat = blt_info.bltadat; }\n");
+	if (a_is_on) printf("\t\tif (pta) { bC ->  blt_info.bltadat = bltadat = chipmem_agnus_wget (pta); pta -= 2; } else { bltadat = bC -> blt_info.bltadat; }\n");
 	if (a_is_on) printf("\t\tbltadat &= blit_masktable[i];\n");
 	if (a_is_on) printf("\t\tsrca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;\n");
 	if (a_is_on) printf("\t\tpreva = bltadat;\n");
@@ -211,6 +213,7 @@ static void generate_table(void)
     unsigned int i;
     printf("#include \"sysconfig.h\"\n");
     printf("#include \"sysdeps.h\"\n");
+    printf("#include \"newcpu.h\"\n");
     printf("#include \"options.h\"\n");
     printf("#include \"custom.h\"\n");
     printf("#include \"memory.h\"\n");

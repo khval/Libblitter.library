@@ -1,5 +1,6 @@
 #include "sysconfig.h"
 #include "sysdeps.h"
+#include "newcpu.h"
 #include "options.h"
 #include "custom.h"
 #include "memory.h"
