@@ -10,13 +10,8 @@
 		<method name="Expunge" result="void" status="unimplemented"/>
 		<method name="Clone" result="struct Interface *" status="unimplemented"/>
 
-		<method name="blit_init" result="void">
-			<arg name="context" type="struct blitcontext *"/>
-		</method>
-
 		<method name="doBlitter" result="void">
-			<arg name="context" type="struct blitcontext *"/>
-			<arg name="custum" type="struct Custom *"/>
+			<arg name="custom" type="struct Custom *"/>
 		</method>
 
 	</interface>

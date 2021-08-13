@@ -113,6 +113,8 @@ STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
     return result;
 }
 
+extern void build_blitfilltable(void);
+
 /* The ROMTAG Init Function */
 STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct Interface *exec)
 {
@@ -139,6 +141,8 @@ STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct
            if (!libBase->IUtility)
                return NULL;
        } else return NULL; */
+
+	build_blitfilltable();
 
        return (struct Library *)libBase;
 }

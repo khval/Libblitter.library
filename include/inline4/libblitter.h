@@ -29,7 +29,6 @@
 #include <interfaces/libblitter.h>
 
 /* Inline macros for Interface "main" */
-#define blit_init(context) ILibBlitter->blit_init((context))
-#define doBlitter(context, custum) ILibBlitter->doBlitter((context), (custum))
+#define doBlitter(custom) ILibBlitter->doBlitter((custom))
 
 #endif /* INLINE4_LIBBLITTER_H */

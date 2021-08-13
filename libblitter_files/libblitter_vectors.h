@@ -22,5 +22,4 @@ struct LibBlitterIFace;
 
 extern ULONG                VARARGS68K _libblitter_Obtain(struct LibBlitterIFace *);
 extern ULONG                VARARGS68K _libblitter_Release(struct LibBlitterIFace *);
-extern void                 VARARGS68K _libblitter_blit_init(struct LibBlitterIFace *, struct blitcontext * context);
-extern void                 VARARGS68K _libblitter_doBlitter(struct LibBlitterIFace *, struct blitcontext * context, struct Custom * custum);
+extern void                 VARARGS68K _libblitter_doBlitter(struct LibBlitterIFace *, struct Custom * custom);

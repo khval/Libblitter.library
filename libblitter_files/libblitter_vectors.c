@@ -13,7 +13,6 @@ STATIC CONST APTR main_v1_vectors[] =
     _libblitter_Release,
     _libblitter_UNIMPLEMENTED, /* Expunge */
     _libblitter_UNIMPLEMENTED, /* Clone */
-    _libblitter_blit_init,
     _libblitter_doBlitter,
     (APTR)-1
 };

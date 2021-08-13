@@ -33,12 +33,15 @@ struct a_bad_day
 
 } chipmem_bank = {NULL};
 
-struct one_more_bad_day
+struct event_blitter_s
 {
 	int active;
 	int oldcycles;
 	int evtime;
-} *event_blitter;
+};
+
+struct event_blitter_s __event_blitter__;
+struct event_blitter_s *event_blitter = &__event_blitter__;
 
 struct wtf_is_this 
 {

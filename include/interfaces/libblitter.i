@@ -14,7 +14,6 @@ STRUCTURE LibBlitterIFace, InterfaceData_SIZE
 	    FPTR ILibBlitter_Release
 	    FPTR LibBlitterIFace_Expunge_UNIMPLEMENTED
 	    FPTR LibBlitterIFace_Clone_UNIMPLEMENTED
-	    FPTR ILibBlitter_blit_init
 	    FPTR ILibBlitter_doBlitter
 	LABEL LibBlitterIFace_SIZE
 

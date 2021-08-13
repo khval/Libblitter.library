@@ -38,8 +38,7 @@ struct LibBlitterIFace
 	ULONG APICALL (*Release)(struct LibBlitterIFace *Self);
 	APTR Expunge_UNIMPLEMENTED;
 	APTR Clone_UNIMPLEMENTED;
-	void APICALL (*blit_init)(struct LibBlitterIFace *Self, struct blitcontext * context);
-	void APICALL (*doBlitter)(struct LibBlitterIFace *Self, struct blitcontext * context, struct Custom * custum);
+	void APICALL (*doBlitter)(struct LibBlitterIFace *Self, struct Custom * custom);
 };
 
 #ifdef __cplusplus
