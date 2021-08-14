@@ -11,6 +11,8 @@ Scope the GLP2 license is the library, it does apply to other program that might
 
 Because it GPL2 you right change modify, as you like, you have right distributed, and sell it, provided include licensee, and keep any changed open source.
 
+this code will fork of in its own direction.
+
 We don’t wont clock cycle bloat, we don’t need to schedule anything etc,
 and do not need setters and getters for memory accesses.
 
