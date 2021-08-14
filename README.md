@@ -9,7 +9,7 @@ Auto generated header files should be considered LGPL.
 (Keeping same license is only meant for "programs" as stated in the GPL2 License, not libraries, we don’t won’t limit the libraries use by enforcing strict GLP2 policy,
 Scope the GLP2 license is the library, it does apply to other program that might wont to use it, or the OS it runs on :-) )
 
-Because it GPL2 you right change modify, as you like, you have right distributed, and sell it, provided include licensee, and keep any changed open source.
+Because it GPL2 you have right change/modify, as you like, you have right distributed, and sell it, provided include licensee, and keep any changed open source.
 
 this code will fork of in its own direction.
 
