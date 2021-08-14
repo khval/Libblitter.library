@@ -3,8 +3,11 @@
 AmigaOS4.1 SDK, there is struct custum, we should able point this to memory, 
 and run doBlitter() function to trigger blitter. 
 
-Blitter.c comes from UAE, so we keep the same copyrights.
-Header files should be considered LGPL,
+Blitter.c comes from UAE, so we keep the same copyright (GPL2).
+
+Auto generated header files should be considered LGPL. 
+(Keeping same license is only meant for programs, not libraries, we don’t won’t limit the libraries use by enforcing strict GLP2 policy.)
+
 Because its GPL2 all changes so to contributed back source code, and be kept open source.
 however we most like do stuff to blitter.c that makes it unwonted in UAE again, it will fork of in its own direction.
 
