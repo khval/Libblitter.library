@@ -7,7 +7,7 @@ Blitter.c comes from UAE, so we keep the same copyright (GPL2).
 
 Auto generated header files should be considered LGPL. 
 (Keeping same license is only meant for programs, not libraries, we don’t won’t limit the libraries use by enforcing strict GLP2 policy,
-Scope the GLP2 license is the library, it does apply to other program that might wont to use it.)
+Scope the GLP2 license is the library, it does apply to other program that might wont to use it, or the OS it runs on :-) )
 
 Because its GPL2 all changes so to contributed back source code, and be kept open source.
 however we most like do stuff to blitter.c that makes it unwonted in UAE again, it will fork of in its own direction.
