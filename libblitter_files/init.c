@@ -16,6 +16,7 @@
 
 #include <exec/exec.h>
 #include <proto/exec.h>
+#include <proto/dos.h>
 #include <dos/dos.h>
 #include <exec/types.h>
 #include <libraries/libblitter.h>
@@ -33,6 +34,14 @@ struct _Library
     BPTR segList;
     /* If you need more data fields, add them here */
 };
+
+struct ExecIFace *IExec UNUSED = NULL;
+
+struct DOSIFace *IDOS = NULL;
+struct Library *DOSBase = NULL;
+
+struct NewlibIFace * INewlib = NULL;
+struct Library *NewLibBase = NULL;
 
 /*
  * The system (and compiler) rely on a symbol named _start which marks
@@ -88,13 +97,24 @@ STATIC APTR libClose(struct LibraryManagerInterface *Self)
     return 0;
 }
 
+#define close_lib(b,i)			\
+	if (b) IExec->CloseLibrary(b);	\
+	if (i) IExec->DropInterface( (struct Interface *) i );	\
+	b = NULL; i = NULL;			
+
+
+void close_libs()
+{
+	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
+	close_lib( DOSBase, IDOS);
+	close_lib( NewLibBase, INewlib);
+}
 
 /* Expunge the library */
 STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
 {
     /* If your library cannot be expunged, return 0 */
-    struct ExecIFace *IExec
-        = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
+    IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
     APTR result = (APTR)0;
     struct _Library  *libBase = (struct  _Library *)Self->Data.LibBase;
     if (libBase->libNode.lib_OpenCnt == 0)
@@ -102,8 +122,10 @@ STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
        result = (APTR)libBase->segList;
         /* Undo what the init code did */
 
-        IExec->Remove((struct Node *)libBase);
-        IExec->DeleteLibrary((struct Library *)libBase);
+	close_libs();
+
+	IExec->Remove((struct Node *)libBase);
+	IExec->DeleteLibrary((struct Library *)libBase);
     }
     else
     {
@@ -115,34 +137,55 @@ STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
 
 extern void build_blitfilltable(void);
 
+BOOL open_lib( const char *name, int ver , const char *iname, int iver, struct Library **base, struct Interface **interface)
+{
+
+	*interface = NULL;
+	*base = IExec->OpenLibrary( name , ver);
+
+	if (*base)
+	{
+		 *interface = IExec->GetInterface( *base,  iname , iver, TAG_END );
+		if (!*interface) if (IDOS) IDOS -> Printf("Unable to getInterface %s for %s %d!\n",iname,name,ver);
+	}
+	else
+	{
+	   	if (IDOS) IDOS -> Printf("Unable to open the %s %ld!\n",name,ver);
+	}
+
+	return (*interface) ? TRUE : FALSE;
+}
+
+BOOL init()
+{
+	if ( ! open_lib( "dos.library", 53L , "main", 1, &DOSBase, (struct Interface **) &IDOS  ) ) return FALSE;
+	if ( ! open_lib( "newlib.library", 53L , "main", 1, &NewLibBase, (struct Interface **) &INewlib  ) ) return FALSE;
+
+	return TRUE;
+}
+
+
 /* The ROMTAG Init Function */
 STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct Interface *exec)
 {
-    struct _Library  *libBase = (struct  _Library *)LibraryBase;
-    struct ExecIFace *IExec UNUSED = (struct ExecIFace *)exec;
+	struct _Library  *libBase = (struct  _Library *)LibraryBase;
+	IExec = (struct ExecIFace *)exec;
 
-    libBase->libNode.lib_Node.ln_Type = NT_LIBRARY;
-    libBase->libNode.lib_Node.ln_Pri  = 0;
-    libBase->libNode.lib_Node.ln_Name = "libblitter.library";
-    libBase->libNode.lib_Flags        = LIBF_SUMUSED|LIBF_CHANGED;
-    libBase->libNode.lib_Version      = VERSION;
-    libBase->libNode.lib_Revision     = REVISION;
-    libBase->libNode.lib_IdString     = VSTRING;
+	libBase->libNode.lib_Node.ln_Type = NT_LIBRARY;
+	libBase->libNode.lib_Node.ln_Pri  = 0;
+	libBase->libNode.lib_Node.ln_Name = "libblitter.library";
+	libBase->libNode.lib_Flags        = LIBF_SUMUSED|LIBF_CHANGED;
+	libBase->libNode.lib_Version      = VERSION;
+	libBase->libNode.lib_Revision     = REVISION;
+	libBase->libNode.lib_IdString     = VSTRING;
 
-    libBase->segList = (BPTR)seglist;
+	libBase->segList = (BPTR)seglist;
 
-    /* Add additional init code here if you need it. For example, to open additional
-       Libraries:
-       libBase->UtilityBase = IExec->OpenLibrary("utility.library", 50L);
-       if (libBase->UtilityBase)
-       {
-           libBase->IUtility = (struct UtilityIFace *)IExec->GetInterface(ElfBase->UtilityBase, 
-              "main", 1, NULL);
-           if (!libBase->IUtility)
-               return NULL;
-       } else return NULL; */
-
-	build_blitfilltable();
+	if (init() == FALSE)
+	{
+		close_libs();
+		return NULL;
+	}
 
        return (struct Library *)libBase;
 }

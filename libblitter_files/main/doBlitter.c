@@ -27,9 +27,7 @@
 #include <proto/libblitter.h>
 #include <stdarg.h>
 
-#include "../uae_inc/sysdeps.h"
-#include "../uae_inc/newcpu.h"
-#include "../uae_inc/blitter.h"
+#include "../blitzen/blitzen.h"
 
 /**********************************************************************
 *   NAME
@@ -62,40 +60,12 @@ extern void do_blitter ( struct blitterContext *bC );
 void _libblitter_doBlitter(struct LibBlitterIFace *Self,
        struct Custom * custom)
 {
-	struct blitterContext _context;
+	struct blitstate bstate;
 
-//	_context.oldvblts = custom -> oldvblts;
-//	_context.blinea_shift = custom -> blinea_shift;
-//	_context.blinea = custom -> blinea;
-//	_context.blineb = custom -> blineb;
-//	_context.blitline = custom -> blitline;
-//	_context.blitfc = custom -> blitfc;
-//	_context.blitfill = custom -> blitfill;
-//	_context.blitife = custom -> blitife;
-//	_context.blitsing = custom -> blitsing;
-//	_context.blitdesc = custom -> blitdesc;
-//	_context.blitonedot = custom -> blitonedot;
-//	_context.blitsign = custom -> blitsign;
-//	_context.bltwait = custom -> bltwait;
-//	_context.bltstate = custom -> bltstate;
+	uint16 *dptr = (uint16 *) custom -> bltdpt;
 
-	_context.bltcon0 = custom -> bltcon0;
-	_context.bltcon1 = custom -> bltcon1;
-	_context.bltapt = custom -> bltapt;
-	_context.bltbpt = custom -> bltbpt;
-	_context.bltcpt = custom -> bltcpt;
-	_context.bltdpt = custom -> bltdpt;
-	_context.bltsize = custom -> bltsize;
-
-	do_blitter ( &_context );
-
-	custom -> bltcon0 = _context.bltcon0;
-	custom -> bltcon1 = _context.bltcon1;
-	custom -> bltapt = _context.bltapt;
-	custom -> bltbpt = _context.bltbpt;
-	custom -> bltcpt = _context.bltcpt;
-	custom -> bltdpt = _context.bltdpt;
-	custom -> bltsize = _context.bltsize;
+	CustomToBlitsate( custom,  &bstate );
+	blitzenBlit(  bstate );
 
 }
 

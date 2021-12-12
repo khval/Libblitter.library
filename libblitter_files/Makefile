@@ -34,9 +34,11 @@ VERSION = 53
 
 # "main" Interface Source Files
 main_SRCS = main/Obtain.c main/Release.c main/blit_init.c main/doBlitter.c 
-main_SRCS += uae/blitfunc.c uae/blittable.c uae/blitter.c
+main_SRCS += blitzen/blitzen.c
 
-dependences += uae_inc/blit.h  uae_inc/blitfunc.h 
+dependences += 
+
+includes += blitzen/blitzen.h
 
 
 # -------------------------------------------------------------
@@ -46,7 +48,7 @@ SRCS = init.c
 
 OBJS = $(main_SRCS:.c=.o)  $(SRCS:.c=.o)
 # Rules for building
-$(TARGET):  $(dependences) $(OBJS)
+$(TARGET):  $(includes) $(dependences) $(OBJS)
 	$(CC) $(LINK) -nostartfiles -o $(TARGET) $(OBJS) $(LIBS)
 
 .PHONY: clean
@@ -58,25 +60,7 @@ revision:
 	bumprev $(VERSION) $(TARGET)
 
 clean_dependences:
-	$(RM) $(dependences) uae/genblitter.elf
+	$(RM) $(dependences)
 
-uae_inc/blit.h: uae/genblitter.elf
-	uae/genblitter.elf i >uae_inc/blit.h
-uae/blitfunc.c: uae/genblitter.elf uae_inc/blitfunc.h
-	uae/genblitter.elf f >uae/blitfunc.c
-uae_inc/blitfunc.h: uae/genblitter.elf
-	uae/genblitter.elf h >uae_inc/blitfunc.h
-uae/blittable.c: uae/genblitter.elf uae_inc/blitfunc.h
-	uae/genblitter.elf t >uae/blittable.c
-
-uae/genblitter.o: uae/genblitter.c
-	$(CC) -I uae_inc -c -nostartfiles uae/genblitter.c -o uae/genblitter.o
-
-uae/blitops.o: uae/blitops.c
-	$(CC) -I uae_inc -c -nostartfiles uae/blitops.c -o uae/blitops.o  
-
-uae/genblitter.elf: uae/genblitter.o uae/blitops.o
-	$(CC) -I uae_inc -o uae/genblitter.elf uae/genblitter.o uae/blitops.o
-
-uae/%.o: uae/%.c
-	gcc  -I uae_inc -I /sdk/Include/include_h -Wall -O3    -c $< $(libs) -o $@
+blitter/%.o: blitter/%.c
+	gcc  -I blitten -I /sdk/Include/include_h -Wall -O3    -c $< $(libs) -o $@
