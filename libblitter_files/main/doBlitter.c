@@ -13,6 +13,9 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <exec/exec.h>
 #include <proto/exec.h>
@@ -60,12 +63,11 @@ extern void do_blitter ( struct blitterContext *bC );
 void _libblitter_doBlitter(struct LibBlitterIFace *Self,
        struct Custom * custom)
 {
-	struct blitstate bstate;
-
 	uint16 *dptr = (uint16 *) custom -> bltdpt;
+	struct blitstate bstate;
+	bzero( &bstate, sizeof(struct blitstate) );
 
 	CustomToBlitsate( custom,  &bstate );
-	blitzenBlit(  bstate );
-
+	blitzenBlit(  &bstate );
 }
 

@@ -40,7 +40,6 @@ dependences +=
 
 includes += blitzen/blitzen.h
 
-
 # -------------------------------------------------------------
 # Nothing should need changing below this line
 
@@ -60,7 +59,7 @@ revision:
 	bumprev $(VERSION) $(TARGET)
 
 clean_dependences:
-	$(RM) $(dependences)
+	delete blitzen/#?.o 
 
 blitter/%.o: blitter/%.c
 	gcc  -I blitten -I /sdk/Include/include_h -Wall -O3    -c $< $(libs) -o $@
