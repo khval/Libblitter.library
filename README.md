@@ -18,20 +18,20 @@ this how you use it.
 
 Exsample.
 
-  ;insted of A6 pointing to $DFF0000, 
-  ;you point it some memory, you have allocated.
-
-move.l #$09F0000,BLTCON0(a6)
-move.l #$FFFFFFFF,BLTAFWM(a6)
-move.l #Font,BLTAPTH(a6)
-move.l #screen,BLTDPTH(a6)
-move.w #FontBpl-4,BLTAMOD(a6)
-move.w #ScrBpl-4,BLTDMOD(a6)
-move.w #20*64+4+2,BLTSIZE(a6)
-
-  ;Setting BLTSIZE should start blitter, but nothing happens, because no chipset is used,
-  ;so we call doBlitter, do blitter takes A6 as first and only argument.
-  
-lea libBlitter(pc),a1
-jsr doBlitter(a1)
+    ;insted of A6 pointing to $DFF0000, 
+    ;you point it some memory, you have allocated.
+    
+    move.l #$09F0000,BLTCON0(a6)
+    move.l #$FFFFFFFF,BLTAFWM(a6)
+    move.l #Font,BLTAPTH(a6)
+    move.l #screen,BLTDPTH(a6)
+    move.w #FontBpl-4,BLTAMOD(a6)
+    move.w #ScrBpl-4,BLTDMOD(a6)
+    move.w #20*64+4+2,BLTSIZE(a6)
+    
+    ;Setting BLTSIZE should start blitter, but nothing happens, because no chipset is used,
+    ;so we call doBlitter, do blitter takes A6 as first and only argument.
+      
+    lea libBlitter(pc),a1
+    jsr doBlitter(a1)
 
