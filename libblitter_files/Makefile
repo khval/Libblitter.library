@@ -35,6 +35,7 @@ VERSION = 53
 # "main" Interface Source Files
 main_SRCS = main/Obtain.c main/Release.c main/blit_init.c main/doBlitter.c 
 main_SRCS += blitzen/blitzen.c
+main_SRCS += 68k_stubs.c
 
 dependences += 
 
