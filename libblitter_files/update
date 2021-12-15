@@ -17,7 +17,7 @@ if exists libblitter_files
 cd libblitter_files/
 ; replace default text set by IDLTOOL
 rpl.exe -R "Hyperion Entertainment CVBA" "LiveForIt Software" >NIL:
-rpl.exe -R "All Rights Reserved" "Freeware License." >NIL:
+rpl.exe -R "All Rights Reserved" "Open-Source Freeware" >NIL:
 endif 
 
 cd $olddir

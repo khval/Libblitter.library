@@ -4,7 +4,7 @@
  *  This file is part of libblitter.
  *
  *  Copyright (c) 2021 LiveForIt Software.
- *  GPL2 License..
+ *  Open-Source Freeware
  *
  * $Id$
  *
