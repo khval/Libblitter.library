@@ -1,22 +1,33 @@
 # Libblitter.library
 
-AmigaOS4.1 SDK, there is struct custum, declare it a local variable. 
-and run doBlitter() function to trigger blitter, as the last thing you do.
+## Introduction
 
-This project is based on Peter Gordon, blitzen v0.3, 
-during test, it has proven to work pretty well.
+This project is to provide the chipset feature as service, in 1980’s Amiga was made for gaming market, accidently it got right talent of software developers to allow it to have a cooperative multitasking operating system, but developers ignore the OS, any overhead, can slow down games, beside they wanted their own custom DRM code, to protect their games from being copied. Starting with Draco, AmigaONE and Amitalon system the chipset was being taken out. now we have next generation AmigaOS for PowerPC, and OS replicas like MorphOS and AROS, that run on hardware does not include a chipset. To solve the problem, we need hardware features in software.
 
-This project is now Freeware, as defined by Peter Gordon.
+A number of different tricks has been tried, emulation, and mmu based software patches, on the operating system that run some compatible big-endian byte code (the PowerPC CPU chips), this are the AmigaOS4 and MorphOS operating systems, running on modern / half modern hardware.
+Emulation needs huge overhead, and it’s a bad integration, in addition needs configuration, and copyrighted roms, or system files. 
 
-(first this project tried to use UAE code, but it was 
-over complicated for this library, and I did not get it to work correct.)
+If you’re using MMU patches, it often does not work at all, or make the system unstable. 
 
-I also speculated about wring my own from ground up, but it probably be west of time.
-I hope to be forgiven :-)
+While interesting approaches, there is less intrusive ways to deal with this. And is writing software routines that can do what hardware was doing.
 
-this how you use it.
+The way Amiga work is that some of address space is used by custom chips, so when you write to the $DFF0xxx, the write triggers a hardware interrupt, or hardware copy features, line draw or fill features provided by chipset, and other stuff.
 
-Exsample.
+AmigaOS4.1 SDK provides a struct declares all address and name of this parameters in custom hardware, this what most will be using working on C code.
+
+I tried first to use UAE code as bases for library, it was bit too complexed, then I tried to use code from another project Blitzen by Peter Gordon. This resulted in software license change to Open-Source Freeware license.
+
+I also speculated about writing my own from ground up, but it probably be waste of time, I hope to be forgiven :-), for not wasting my time.|
+
+**Best Regards**
+
+Kjetil Hvalstrand  
+also known as LiveForIt and  
+NutsAboutAmiga on Amiga forums.
+
+# Exsamples
+
+## 680x0 assembler exsample.
 
     ;insted of A6 pointing to $DFF0000, 
     ;you point it some memory, you have allocated.
