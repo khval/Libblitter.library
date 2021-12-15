@@ -46,3 +46,16 @@ NutsAboutAmiga on Amiga forums.
     lea libBlitter(pc),a1
     jsr doBlitter(a1)
 
+
+# Compiling..
+
+    You need to have AmigaOS4.1 SDK installed.
+    find the directory with makefile, and do.
+
+    make clean
+    make all
+    make install
+    
+    Update script should not be used unless you adding feature to the library.
+    If you then need RPL tool to replace the incorrect text in the auto generated header files.
+    you should find it on project page on github.
