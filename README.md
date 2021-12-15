@@ -54,7 +54,7 @@ NutsAboutAmiga on Amiga forums.
 
     make clean
     make all
-    make install
+    install
     
     Update script should not be used unless you adding feature to the library.
     If you then need RPL tool to replace the incorrect text in the auto generated header files.
