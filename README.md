@@ -50,7 +50,7 @@ NutsAboutAmiga on Amiga forums.
 # Compiling..
 
     You need to have AmigaOS4.1 SDK installed.
-    find the directory with makefile, and do.
+    find the directory with the makefile, and do.
 
     make clean
     make all
