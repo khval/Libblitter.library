@@ -10,7 +10,11 @@
 		<method name="Expunge" result="void" status="unimplemented"/>
 		<method name="Clone" result="struct Interface *" status="unimplemented"/>
 
-		<method name="doBlitter" result="void">
+		<method name="BLTSIZH" result="void">
+			<arg name="custom" type="struct Custom *"/>
+		</method>
+
+		<method name="BLTSIZE" result="void">
 			<arg name="custom" type="struct Custom *"/>
 		</method>
 

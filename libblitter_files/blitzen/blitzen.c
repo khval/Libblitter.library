@@ -88,8 +88,6 @@ void CustomToBlitsate( struct Custom *custom, struct blitstate *bs )
 {
 	BOOL handled;
 
-
-
 	blitzenWrite( BLTCON0, custom -> bltcon0, &handled, bs );
 	blitzenWrite( BLTCON1, custom -> bltcon1, &handled, bs );
 	blitzenWrite( BLTAFWM, custom -> bltafwm, &handled, bs );
@@ -102,7 +100,6 @@ void CustomToBlitsate( struct Custom *custom, struct blitstate *bs )
 	blitzenWrite( BLTAPTL, (uint32) custom -> bltapt, &handled, bs );
 	blitzenWrite( BLTDPTH, (uint32) custom -> bltdpt >>16, &handled, bs );
 	blitzenWrite( BLTDPTL, (uint32) custom -> bltdpt, &handled, bs );
-	blitzenWrite( BLTSIZE, custom -> bltsize, &handled, bs );
 	blitzenWrite( BLTAMOD, custom -> bltamod, &handled, bs );
 	blitzenWrite( BLTBMOD, custom -> bltbmod, &handled, bs );
 	blitzenWrite( BLTCMOD, custom -> bltcmod, &handled, bs );
@@ -110,22 +107,20 @@ void CustomToBlitsate( struct Custom *custom, struct blitstate *bs )
 	blitzenWrite( BLTADAT, custom -> bltadat, &handled, bs );
 	blitzenWrite( BLTBDAT, custom -> bltbdat, &handled, bs );
 	blitzenWrite( BLTCDAT, custom -> bltcdat, &handled, bs );
-
-
 }
 	
 void blitzenWrite( uint16 reg, uint16 value, BOOL *handled, struct blitstate *bs )
 {
-	uint16 old;
-
 	switch( reg )
 	{
 		case DMACON:
+/*
 			if( bs->b_DMACON & DMAF_MASTER )
 			old = bs->b_DMACON;
 			else
 			old = 0;
-		
+*/
+
 			if( value & DMAF_SETCLR )
 			bs->b_DMACON |= (value&~DMAF_SETCLR);
 			else
@@ -223,15 +218,23 @@ void blitzenWrite( uint16 reg, uint16 value, BOOL *handled, struct blitstate *bs
 		case BLTDPTL:
 			bs->b_dptr = (uint16 *)((((uint32)bs->b_dptr)&0xffff0000)|(value&0xfffe));
 			break;
+
+		case BLTSIZV:
+			bs->b_Width = value;
+			if( bs->b_Width == 0 ) bs->b_Width = 64;
+			break;
+
+		case BLTSIZH:
+			bs->b_Height = value;
+			if( bs->b_Height == 0 ) bs->b_Height = 1024;
+			break;
 		
 		case BLTSIZE:
-
 			bs->b_Width  = (value&0x3f);  // Words
 			if( bs->b_Width == 0 ) bs->b_Width = 64;
 
 			bs->b_Height = value >> 6;
 			if( bs->b_Height == 0 ) bs->b_Height = 1024;
-
 			break;
 	
 		case BLTAMOD:

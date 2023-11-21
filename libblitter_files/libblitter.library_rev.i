@@ -1,4 +1,4 @@
-VERSION		EQU	53
+VERSION		EQU	1
 REVISION	EQU	1
 
 DATE	MACRO
@@ -6,13 +6,13 @@ DATE	MACRO
 		ENDM
 
 VERS	MACRO
-		dc.b 'libblitter.library 53.1'
+		dc.b 'libblitter.library 1.1'
 		ENDM
 
 VSTRING	MACRO
-		dc.b 'libblitter.library 53.1 (11.8.2021)',13,10,0
+		dc.b 'libblitter.library 1.1 (11.8.2021)',13,10,0
 		ENDM
 
 VERSTAG	MACRO
-		dc.b 0,'$VER: libblitter.library 53.1 (11.8.2021)',0
+		dc.b 0,'$VER: libblitter.library 1.1 (11.8.2021)',0
 		ENDM
