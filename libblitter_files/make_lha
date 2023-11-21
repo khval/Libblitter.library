@@ -1,0 +1,34 @@
+.key target_lha
+.bra {
+.ket }
+
+setenv lhafile=ram:libblitter_library.lha
+
+if exists ram:libblitter_library
+	delete ram:libblitter_library all
+endif
+
+if exists ram:libblitter_library.lha
+	delete ram:libblitter_library.lha
+endif
+
+makedir ram:libblitter_library
+makedir ram:libblitter_library/libs
+makedir ram:libblitter_library/Include
+makedir ram:libblitter_library/Include/include_h/
+makedir ram:libblitter_library/lvo
+
+copy /package ram:libblitter_library all
+copy /readme.txt ram:libblitter_library/readme.txt
+copy /include/#? ram:libblitter_library/Include/include_h/ all
+
+IF EXISTS libblitter.library
+	copy libblitter.library ram:libblitter_library/libs
+else
+	echo libblitter.library not found
+endif
+
+lha -er a $lhafile ram:libblitter_library >NIL:
+lha L $lhafile
+;delete ram:libblitter_library all 
+
