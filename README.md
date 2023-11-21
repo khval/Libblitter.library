@@ -29,6 +29,8 @@ NutsAboutAmiga on Amiga forums.
 
 ## 680x0 assembler exsample.
 
+    _LVOdoBlitter EQU -30
+
     ;insted of A6 pointing to $DFF0000, 
     ;you point it some memory, you have allocated.
     
@@ -43,8 +45,8 @@ NutsAboutAmiga on Amiga forums.
     ;Setting BLTSIZE should start blitter, but nothing happens, because no chipset is used,
     ;so we call doBlitter, do blitter takes A6 as first and only argument.
       
-    lea libBlitter(pc),a1
-    jsr doBlitter(a1)
+    movel.l libBlitterBase,a1
+    jsr _LVOdoBlitter(a1)
 
 
 # Compiling..
